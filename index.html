@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SynLoop™ Documentation Portal</title>
+    <title>SynLoop™ v3.5 Documentation Portal</title>
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px;
         }
-        
-        .portal-container {
-            max-width: 1000px;
+
+        .container {
+            max-width: 1400px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -22,8 +31,8 @@
             overflow: hidden;
             backdrop-filter: blur(10px);
         }
-        
-        .portal-header {
+
+        .header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             padding: 30px;
@@ -31,251 +40,213 @@
             position: relative;
             overflow: hidden;
         }
-        
-        .portal-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%); }
-            100% { transform: translateX(100%) translateY(100%); }
-        }
-        
-        .portal-header h1 {
-            margin: 0 0 10px 0;
+
+        .header h1 {
             font-size: 2.5rem;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 10px;
         }
-        
-        .portal-header p {
-            margin: 0;
+
+        .header p {
             font-size: 1.1rem;
             opacity: 0.9;
-            position: relative;
-            z-index: 1;
         }
-        
-        .documents-grid {
-            padding: 40px;
-            display: grid;
-            gap: 25px;
-            grid-template-columns: 1fr;
-        }
-        
-        .document-card {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            border-radius: 15px;
-            padding: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.2);
-        }
-        
-        .document-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(30, 60, 114, 0.3);
-        }
-        
-        .document-link {
+
+        .nav-tabs {
             display: flex;
-            align-items: center;
-            padding: 25px 30px;
-            color: white;
-            text-decoration: none;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 20px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            min-width: 200px;
+        }
+
+        .nav-tab:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #1e3c72;
+            border-bottom-color: #1e3c72;
+        }
+
+        .content {
+            height: 80vh;
+            position: relative;
+            background: white;
+        }
+
+        .pdf-container {
             width: 100%;
             height: 100%;
-            transition: all 0.3s ease;
+            border: none;
+            display: none;
         }
-        
-        .document-link:hover {
-            background: rgba(255, 255, 255, 0.1);
+
+        .pdf-container.active {
+            display: block;
         }
-        
-        .document-icon {
-            font-size: 2.5rem;
-            margin-right: 20px;
-            min-width: 60px;
-        }
-        
-        .document-content {
-            flex: 1;
-        }
-        
-        .document-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 0 0 8px 0;
-        }
-        
-        .document-description {
-            font-size: 0.95rem;
-            opacity: 0.9;
-            margin: 0;
-            line-height: 1.4;
-        }
-        
-        .access-indicator {
-            font-size: 1.5rem;
-            opacity: 0.7;
-            margin-left: 15px;
-        }
-        
-        .portal-footer {
+
+        .footer {
             background: #1e3c72;
             color: white;
             padding: 20px 30px;
             text-align: center;
             font-size: 0.9rem;
         }
-        
-        .portal-footer strong {
-            color: #87ceeb;
+
+        .footer strong {
+            color: #ffd700;
         }
-        
-        .access-note {
-            background: #e8f4fd;
-            border-left: 4px solid #1e3c72;
-            padding: 20px;
-            margin: 20px 40px;
-            border-radius: 8px;
+
+        /* Prevent text selection */
+        ::selection {
+            background: transparent;
         }
-        
-        .access-note h3 {
-            margin: 0 0 10px 0;
-            color: #1e3c72;
-            font-size: 1.1rem;
+
+        ::-moz-selection {
+            background: transparent;
         }
-        
-        .access-note p {
-            margin: 0;
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-        
+
+        /* Responsive design */
         @media (max-width: 768px) {
-            .portal-header h1 {
+            .header h1 {
                 font-size: 2rem;
             }
             
-            .documents-grid {
-                padding: 20px;
-                gap: 20px;
+            .nav-tab {
+                min-width: 150px;
+                font-size: 0.9rem;
+                padding: 15px 10px;
             }
             
-            .document-link {
-                padding: 20px;
-            }
-            
-            .document-icon {
-                font-size: 2rem;
-                margin-right: 15px;
-                min-width: 50px;
-            }
-            
-            .document-title {
-                font-size: 1.1rem;
+            .content {
+                height: 70vh;
             }
         }
     </style>
 </head>
-<body>
-    <div class="portal-container">
-        <div class="portal-header">
+<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
+    <div class="container">
+        <div class="header">
             <h1>SynLoop™ v3.5</h1>
             <p>Closed-Loop RNA Therapy Enhancement Platform - Documentation Portal</p>
         </div>
-        
-        <div class="access-note">
-            <h3>🔒 Secure Document Access</h3>
-            <p>For secure viewing with protection features, access the portal: <br>
-            <strong style="color: #1e3c72; font-family: monospace;">https://thecure4phase1and2.github.io/SynLoopv3.5Docs/</strong><br>
-            <button onclick="copyPortalURL()" style="margin-top: 10px; padding: 8px 16px; background: #1e3c72; color: white; border: none; border-radius: 4px; cursor: pointer;">📋 Copy Portal URL</button>
-            </p>
-            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
-                <strong>Test Individual Files:</strong><br>
-                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/engineering.pdf" target="_blank" style="color: #1e3c72;">Test Engineering PDF</a> | 
-                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/regulatory.pdf" target="_blank" style="color: #1e3c72;">Test Regulatory PDF</a> | 
-                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/whitepaper.pdf" target="_blank" style="color: #1e3c72;">Test White Paper PDF</a>
-            </p>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showPDF('engineering')">
+                Engineering Specifications
+            </button>
+            <button class="nav-tab" onclick="showPDF('regulatory')">
+                Regulatory Roadmap
+            </button>
+            <button class="nav-tab" onclick="showPDF('whitepaper')">
+                White Paper
+            </button>
         </div>
-        
-        <div class="documents-grid">
-            <div class="document-card">
-                <a href="javascript:void(0)" 
-                   onclick="openSecurePortal()" 
-                   class="document-link">
-                    <div class="document-icon">🔒</div>
-                    <div class="document-content">
-                        <h3 class="document-title">Access Secure Documentation Portal</h3>
-                        <p class="document-description">View all SynLoop™ v3.5 documents in a protected environment with 3-tab interface: Engineering Specs, Regulatory Roadmap, and White Paper</p>
-                    </div>
-                    <div class="access-indicator">→</div>
-                </a>
-            </div>
+
+        <div class="content">
+            <iframe id="engineering-pdf" class="pdf-container active" 
+                    src="./engineering.pdf"
+                    title="Engineering Specifications">
+                Loading Engineering Specifications...
+            </iframe>
+
+            <iframe id="regulatory-pdf" class="pdf-container"
+                    src="./regulatory.pdf"
+                    title="Regulatory Roadmap">
+                Loading Regulatory Roadmap...
+            </iframe>
+
+            <iframe id="whitepaper-pdf" class="pdf-container"
+                    src="./whitepaper.pdf"
+                    title="White Paper">
+                Loading White Paper...
+            </iframe>
         </div>
-        
-        <div class="portal-footer">
-            <strong>SynLoop™ v3.5</strong> - AB CleanLoop RNA Therapeutics | 
-            Proprietary Documentation Portal
+
+        <div class="footer">
+            <strong>⚠️ CONFIDENTIAL:</strong> SynLoop™ v3.5 - AB CleanLoop RNA Therapeutics | 
+            Proprietary & Confidential - Not for Public Distribution
         </div>
     </div>
 
     <script>
-        function openSecurePortal() {
-            // Try multiple methods to open the portal
-            try {
-                // Method 1: Direct window.open
-                const newWindow = window.open('https://thecure4phase1and2.github.io/SynLoopv3.5Docs/', '_blank', 'noopener,noreferrer');
-                
-                // Method 2: If blocked, try with slight delay
-                if (!newWindow || newWindow.closed) {
-                    setTimeout(() => {
-                        window.open('https://thecure4phase1and2.github.io/SynLoopv3.5Docs/', '_blank');
-                    }, 100);
-                }
-                
-                // Method 3: Fallback - direct navigation
-                if (!newWindow || newWindow.closed) {
-                    window.location.href = 'https://thecure4phase1and2.github.io/SynLoopv3.5Docs/';
-                }
-            } catch (error) {
-                // Method 4: Last resort - redirect current page
-                window.location.href = 'https://thecure4phase1and2.github.io/SynLoopv3.5Docs/';
-            }
-        }
-        
-        function copyPortalURL() {
-            const url = 'https://thecure4phase1and2.github.io/SynLoopv3.5Docs/';
+        function showPDF(type) {
+            // Hide all containers
+            document.querySelectorAll('.pdf-container').forEach(el => {
+                el.classList.remove('active');
+            });
             
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(url).then(() => {
-                    alert('Portal URL copied to clipboard!');
-                });
-            } else {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = url;
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    alert('Portal URL copied to clipboard!');
-                } catch (err) {
-                    alert('Please copy this URL manually: ' + url);
-                }
-                document.body.removeChild(textArea);
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected content and activate tab
+            if (type === 'engineering') {
+                document.getElementById('engineering-pdf').classList.add('active');
+                document.querySelector('[onclick="showPDF(\'engineering\')"]').classList.add('active');
+            } else if (type === 'regulatory') {
+                document.getElementById('regulatory-pdf').classList.add('active');
+                document.querySelector('[onclick="showPDF(\'regulatory\')"]').classList.add('active');
+            } else if (type === 'whitepaper') {
+                document.getElementById('whitepaper-pdf').classList.add('active');
+                document.querySelector('[onclick="showPDF(\'whitepaper\')"]').classList.add('active');
             }
         }
+
+        // Security measures
+        document.addEventListener('keydown', function(e) {
+            // Block copy, save, print, select all
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 83 || e.keyCode === 80 || e.keyCode === 65)) {
+                e.preventDefault();
+                return false;
+            }
+            // Block F12 and developer tools (but not aggressively to avoid Chrome blocking)
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            return true;
+        });
+
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('drop', function(e) {
+            e.preventDefault();
+            return false;
+        });
     </script>
 </body>
 </html>
+a
