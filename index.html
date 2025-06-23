@@ -196,13 +196,22 @@
         
         <div class="access-note">
             <h3>🔒 Secure Document Access</h3>
-            <p>Click any document below to open it in a secure viewing environment. Documents open in a new window with protected viewing features.</p>
+            <p>For secure viewing with protection features, access the portal: <br>
+            <strong style="color: #1e3c72; font-family: monospace;">https://thecure4phase1and2.github.io/SynLoopv3.5Docs/</strong><br>
+            <button onclick="copyPortalURL()" style="margin-top: 10px; padding: 8px 16px; background: #1e3c72; color: white; border: none; border-radius: 4px; cursor: pointer;">📋 Copy Portal URL</button>
+            </p>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                <strong>Test Individual Files:</strong><br>
+                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/engineering.pdf" target="_blank" style="color: #1e3c72;">Test Engineering PDF</a> | 
+                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/regulatory.pdf" target="_blank" style="color: #1e3c72;">Test Regulatory PDF</a> | 
+                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/whitepaper.pdf" target="_blank" style="color: #1e3c72;">Test White Paper PDF</a>
+            </p>
         </div>
         
         <div class="documents-grid">
             <div class="document-card">
-                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/" 
-                   target="_blank" 
+                <a href="javascript:void(0)" 
+                   onclick="openSecurePortal()" 
                    class="document-link">
                     <div class="document-icon">🔒</div>
                     <div class="document-content">
@@ -219,5 +228,54 @@
             Proprietary Documentation Portal
         </div>
     </div>
+
+    <script>
+        function openSecurePortal() {
+            // Try multiple methods to open the portal
+            try {
+                // Method 1: Direct window.open
+                const newWindow = window.open('https://thecure4phase1and2.github.io/SynLoopv3.5Docs/', '_blank', 'noopener,noreferrer');
+                
+                // Method 2: If blocked, try with slight delay
+                if (!newWindow || newWindow.closed) {
+                    setTimeout(() => {
+                        window.open('https://thecure4phase1and2.github.io/SynLoopv3.5Docs/', '_blank');
+                    }, 100);
+                }
+                
+                // Method 3: Fallback - direct navigation
+                if (!newWindow || newWindow.closed) {
+                    window.location.href = 'https://thecure4phase1and2.github.io/SynLoopv3.5Docs/';
+                }
+            } catch (error) {
+                // Method 4: Last resort - redirect current page
+                window.location.href = 'https://thecure4phase1and2.github.io/SynLoopv3.5Docs/';
+            }
+        }
+        
+        function copyPortalURL() {
+            const url = 'https://thecure4phase1and2.github.io/SynLoopv3.5Docs/';
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Portal URL copied to clipboard!');
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('Portal URL copied to clipboard!');
+                } catch (err) {
+                    alert('Please copy this URL manually: ' + url);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+    </script>
 </body>
 </html>
