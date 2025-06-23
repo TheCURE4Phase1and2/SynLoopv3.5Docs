@@ -14,51 +14,235 @@
         }
         
         .portal-container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
         
         .portal-header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portal-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
         }
         
         .portal-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .portal-header p {
             margin: 0;
-            font-size: 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
         
-        .portal-content {
+        .documents-grid {
+            padding: 40px;
+            display: grid;
+            gap: 25px;
+            grid-template-columns: 1fr;
+        }
+        
+        .document-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 15px;
             padding: 0;
-            height: 80vh;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.2);
         }
         
-        .portal-iframe {
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(30, 60, 114, 0.3);
+        }
+        
+        .document-link {
+            display: flex;
+            align-items: center;
+            padding: 25px 30px;
+            color: white;
+            text-decoration: none;
             width: 100%;
             height: 100%;
-            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .document-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .document-icon {
+            font-size: 2.5rem;
+            margin-right: 20px;
+            min-width: 60px;
+        }
+        
+        .document-content {
+            flex: 1;
+        }
+        
+        .document-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+        
+        .document-description {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        .access-indicator {
+            font-size: 1.5rem;
+            opacity: 0.7;
+            margin-left: 15px;
+        }
+        
+        .portal-footer {
+            background: #1e3c72;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .portal-footer strong {
+            color: #87ceeb;
+        }
+        
+        .access-note {
+            background: #e8f4fd;
+            border-left: 4px solid #1e3c72;
+            padding: 20px;
+            margin: 20px 40px;
+            border-radius: 8px;
+        }
+        
+        .access-note h3 {
+            margin: 0 0 10px 0;
+            color: #1e3c72;
+            font-size: 1.1rem;
+        }
+        
+        .access-note p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .portal-header h1 {
+                font-size: 2rem;
+            }
+            
+            .documents-grid {
+                padding: 20px;
+                gap: 20px;
+            }
+            
+            .document-link {
+                padding: 20px;
+            }
+            
+            .document-icon {
+                font-size: 2rem;
+                margin-right: 15px;
+                min-width: 50px;
+            }
+            
+            .document-title {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="portal-container">
         <div class="portal-header">
-            <h1>SynLoop™ v3.5 Documentation Portal</h1>
-            <p>Secure Access Portal</p>
+            <h1>SynLoop™ v3.5</h1>
+            <p>Closed-Loop RNA Therapy Enhancement Platform - Documentation Portal</p>
         </div>
-        <div class="portal-content">
-            <iframe class="portal-iframe" 
-                    src="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/"
-                    title="SynLoop Documentation Portal"
-                    allowfullscreen>
-                Loading SynLoop™ Documentation Portal...
-            </iframe>
+        
+        <div class="access-note">
+            <h3>🔒 Secure Document Access</h3>
+            <p>Click any document below to open it in a secure viewing environment. Documents open in a new window with protected viewing features.</p>
+        </div>
+        
+        <div class="documents-grid">
+            <div class="document-card">
+                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/engineering.pdf" 
+                   target="_blank" 
+                   class="document-link">
+                    <div class="document-icon">⚙️</div>
+                    <div class="document-content">
+                        <h3 class="document-title">Engineering Specifications</h3>
+                        <p class="document-description">Technical architecture, system design, and implementation details for the SynLoop™ v3.5 platform</p>
+                    </div>
+                    <div class="access-indicator">→</div>
+                </a>
+            </div>
+            
+            <div class="document-card">
+                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/regulatory.pdf" 
+                   target="_blank" 
+                   class="document-link">
+                    <div class="document-icon">📊</div>
+                    <div class="document-content">
+                        <h3 class="document-title">Regulatory Roadmap</h3>
+                        <p class="document-description">Compliance framework, regulatory pathway, and approval strategy for RNA therapeutics</p>
+                    </div>
+                    <div class="access-indicator">→</div>
+                </a>
+            </div>
+            
+            <div class="document-card">
+                <a href="https://thecure4phase1and2.github.io/SynLoopv3.5Docs/whitepaper.pdf" 
+                   target="_blank" 
+                   class="document-link">
+                    <div class="document-icon">📄</div>
+                    <div class="document-content">
+                        <h3 class="document-title">Research White Paper</h3>
+                        <p class="document-description">Scientific foundation, clinical evidence, and therapeutic potential of closed-loop RNA systems</p>
+                    </div>
+                    <div class="access-indicator">→</div>
+                </a>
+            </div>
+        </div>
+        
+        <div class="portal-footer">
+            <strong>SynLoop™ v3.5</strong> - AB CleanLoop RNA Therapeutics | 
+            Proprietary Documentation Portal
         </div>
     </div>
 </body>
