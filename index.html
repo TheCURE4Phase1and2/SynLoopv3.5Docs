@@ -221,6 +221,16 @@
                 e.preventDefault();
                 return false;
             }
+            // Block Ctrl+Shift+I (inspect element)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Block Ctrl+U (view source)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
             return true;
         });
 
@@ -246,7 +256,31 @@
             e.preventDefault();
             return false;
         });
+
+        // Disable image saving
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Additional protection - disable common copy methods
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable mouse selection
+        document.addEventListener('mousedown', function(e) {
+            if (e.detail > 1) { // Multi-click
+                e.preventDefault();
+                return false;
+            }
+        });
     </script>
 </body>
 </html>
-a
